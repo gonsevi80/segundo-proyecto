@@ -38,19 +38,19 @@ const insertUserModel = async (username, email, password, registrationCode) => {
 
   //? enviar correo
   // Creamos el asunto del email de verificación.
-  const emailSubject = "Activa tu usuario en Diario de Viajes :)";
+  const emailSubject = "Activa tu usuario en El Notición ;P";
 
   // Creamos el contenido del email (body)
   const emailBody = `
   ¡Bienvenid@ ${username}!
 
-  Gracias por registrarte en Diario de Viajes. Para activar tu cuenta, haz clic en el siguiente enlace:
+  Estamos encantados de que te hayas registrado en El Notición! Ahora, para activar tu cuenta, haz click en el siguiente enlace:
 
   <a href="http://localhost:8000/users/validate/${registrationCode}">Activar mi cuenta</a>
 `;
 
-// Enviamos el email de verificación al usuario.
-await sendMailUtil(email, emailSubject, emailBody);
+  // Enviamos el email de verificación al usuario.
+  await sendMailUtil(email, emailSubject, emailBody);
 
   // Encriptamos la contraseña.
   const hashedPass = await bcrypt.hash(password, 10);

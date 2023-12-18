@@ -1,39 +1,39 @@
 // Importamos los modelos.
-import insertEntryModel from "../../models/entries/insertEntryModel.js";
+import insertNewsModel from "../../models/news/insertNewsModel.js";
 
 // Importamos los servicios.
 import validateSchemaUtil from "../../utils/validateSchemaUtil.js";
 
 // Importamos el esquema.
-import newEntrySchema from "../../schemas/entries/newEntrySchema.js";
+import newNewsSchema from "../../schemas/news/newNewsSchema.js";
 
 // Función controladora final que agrega una nueva entrada.
-const newEntryController = async (req, res, next) => {
+const newNewsController = async (req, res, next) => {
   try {
     const { title, place, description } = req.body;
 
-    console.log(title)
+    console.log(title);
     // Validamos el body con Joi. Fusionamos en un solo objeto las propiedades de body y de files.
-    await validateSchemaUtil(newEntrySchema, Object.assign(req.body));
+    await validateSchemaUtil(newNewsSchema, Object.assign(req.body));
 
     // Insertamos la entrada y obtenemos el id que se le ha asignado.
-    const entryId = await insertEntryModel(
-      title,
-      place,
-      description,
+    const newsId = await insertNewsModel(
+      headline,
+      entrance,
+      paragraphs,
       req.user.id
     );
 
-    console.log(entryId)
+    console.log(newsId);
 
     res.send({
       status: "ok",
       data: {
-        entry: {
-          id: entryId,
-          title,
-          place,
-          description,
+        news: {
+          id: newsId,
+          headline,
+          entrance,
+          paragraphs,
           userId: req.user.id,
           createdAt: new Date(),
         },
@@ -44,4 +44,4 @@ const newEntryController = async (req, res, next) => {
   }
 };
 
-export default newEntryController;
+export default newNewsController;
