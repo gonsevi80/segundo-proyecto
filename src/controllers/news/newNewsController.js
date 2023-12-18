@@ -10,9 +10,9 @@ import newNewsSchema from "../../schemas/news/newNewsSchema.js";
 // Función controladora final que agrega una nueva entrada.
 const newNewsController = async (req, res, next) => {
   try {
-    const { title, place, description } = req.body;
+    const { headline, entrance, paragraphs } = req.body;
 
-    console.log(title);
+    console.log(headline);
     // Validamos el body con Joi. Fusionamos en un solo objeto las propiedades de body y de files.
     await validateSchemaUtil(newNewsSchema, Object.assign(req.body));
 

@@ -95,7 +95,7 @@ export const photoLimitReachedError = () => {
   };
 };
 
-export const cannotVoteOwnnewsError = () => {
+export const cannotVoteOwnNewsError = () => {
   throw {
     httpStatus: 403, // Forbidden
     code: "CANNOT_VOTE_OWN_news",
