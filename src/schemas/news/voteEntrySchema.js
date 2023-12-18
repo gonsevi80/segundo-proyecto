@@ -5,7 +5,7 @@ import joi from 'joi';
 import joiErrorMessages from '../joiErrorMessages.js';
 
 // Creamos el esquema de Joi donde comprobamos todas las propiedades necesarias.
-const voteEntrySchema = joi.object({
+const voteNewsSchema = joi.object({
     value: joi
         .number()
         .integer()
@@ -15,4 +15,4 @@ const voteEntrySchema = joi.object({
         .messages(joiErrorMessages),
 });
 
-export default voteEntrySchema;
+export default voteNewsSchema;

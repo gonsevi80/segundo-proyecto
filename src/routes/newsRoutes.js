@@ -6,80 +6,80 @@ const router = express.Router();
 
 // Importamos las funciones controladoras finales.
 import {
-  newEntryController,
-  listEntriesController,
-  getEntryController,
+  newNewsController,
+  listNewsController,
+  getNewsController,
   canEditController,
-  addEntryPhotoController,
-  deleteEntryPhotoController,
-  voteEntryController,
-} from "../controllers/entries/index.js";
+  addNewsPhotoController,
+  deleteNewsPhotoController,
+  voteNewsController,
+} from "../controllers/news/index.js";
 
 import {
   userExistsController,
   authUserController,
   authUserOptionalController,
-  entryExistsController,
+  newsExistsController,
 } from "../middleware/index.js";
 
 // Crear una nueva entrada.
 router.post(
-  "/entries",
+  "/news",
   authUserController,
   userExistsController,
-  newEntryController
+  newNewsController
 );
 
 // Obtener el listado de entradas.
-router.get("/entries", authUserOptionalController, listEntriesController);
+router.get("/news", authUserOptionalController, listNewsController);
 
 // Obtener info de una entrada concreta.
 router.get(
-  "/entries/:entryId",
+  "/news/:newsId",
   authUserOptionalController,
-  entryExistsController,
-  getEntryController
+  newsExistsController,
+  getNewsController
 );
 
-// Agregar una foto a una entrada.
+// Agregar una foto a una noticia
 router.post(
-  "/entries/:entryId/photos",
+  "/news/:newsId/photos",
   authUserController,
   userExistsController,
-  entryExistsController,
+  newsExistsController,
   canEditController,
-  addEntryPhotoController
+  addNewsPhotoController
 );
 
-// Eliminar una foto de una entrada.
+// Eliminar una foto de una noticia.
 router.delete(
-  "/entries/:entryId/photos/:photoId",
+  "/news/:entryId/photos/:photoId",
   authUserController,
   authUserOptionalController,
   userExistsController,
-  entryExistsController,
+  newsExistsController,
   canEditController,
-  deleteEntryPhotoController
+  deleteNewsPhotoController
 );
 
-// Votar una entrada.
+// Votar una noticia.
 router.post(
-  "/entries/:entryId/votes",
+  "/news/:newsId/votes",
   authUserController,
   userExistsController,
-  entryExistsController,
-  voteEntryController
+  newsExistsController,
+  voteNewsController
 );
 
 // Editar una noticia
 router.put(
-  "/entries/:entryId",
+  "/news/:newsId",
   authUserController,
   authUserOptionalController,
   userExistsController,
-  entryExistsController,
+  newsExistsController,
   canEditController,
-  addEntryPhotoController
+  addNewsPhotoController
 );
 
 export default router;

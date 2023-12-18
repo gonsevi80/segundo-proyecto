@@ -1,5 +1,5 @@
 // Importamos los modelos.
-import selectEntryByIdModel from '../../models/entries/selectEntryByIdModel.js';
+import selectNewsByIdModel from "../../models/news/selectNewsByIdModel.js";
 
 // Importamos los errores.
 import { unauthorizedUserError } from '../../services/errorService.js';
@@ -9,14 +9,14 @@ import { unauthorizedUserError } from '../../services/errorService.js';
 const canEditController = async (req, res, next) => {
     try {
         // Obtenemos el id de la entrada en la cuál tendra lugar el cambio.
-        const { entryId } = req.params;
+        const { newsId } = req.params;
 
         // Obtenemos los datos de la entrada.
-        const entry = await selectEntryByIdModel(entryId);
+        const news = await selectNewsByIdModel(newsId);
 
         // Si no somos los propietarios lanzamos un error.
-        if (entry.userId !== req.user.id) {
-            unauthorizedUserError();
+        if (news.userId !== req.user.id) {
+          unauthorizedUserError();
         }
 
         // Pasamos el control a la siguiente función controladora.

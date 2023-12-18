@@ -1,12 +1,41 @@
-# Diario de viajes
+// Registro: POST /user/registry
+// Login: POST /user/login
 
-Se trata de una web donde los usuarios publican entradas sobre viajes. Cada entrada tiene título, descripción, lugar y hasta 3 fotos asignadas. Cada entrada puede ser votada con una puntuación entre 1 y 5.
+// Lista categories: GET /categories
+// Crear: POST /news (TOKEN)
+// Editar: PUT /news/:idNews (req.params) (TOKEN)
+// Eliminar: DELETE /news/:idNews (req.params) (TOKEN)
+
+// Listado news: GET /news (n. votos positivos y negativos), vote pos? vot neg? y filtos/order con req.query .
+// Ejemplos:
+// GET /news - devuelve todas las news ordenadas por fecha DESC
+// GET /news?theme=1 - devuelve todas las news, de la categoría 1, ordenadas por fecha DESC
+// GET /news?today=true - devuelve todas las news de hoy
+// GET /news?today=true&order="like"&direction="desc" - devuelve todas las news de hoy ordenadas por like DESC
+// GET /news?today=false - devuelve todas las noticias que no sean actuales
+// GET /news?theme=1&today=true
+
+// Detalle news GET /news/:idNews (TOKEN)
+
+// Votar: POST /news/:idNews/vote/ (TOKEN) - en body:
+// {"vote":"1/0"}
+// Si voto no existe hago insert, si existe elimino con delete
+// (devolver el numero actual de like)
+=======
+
+# El Notición
+
+Se trata de una web donde los usuarios publican noticias. Cada noticia tiene un título o headline, entradilla (entrance),texto (paragraphs), categoría y 1 foto asignada. Cada noticia puede ser votada tanto positiva como negativamente y comentada por los usuarios registrados.
+
+Cada noticia y comentario vendrán con su fecha y hora de publicación.
+
+Los usuraios registrados podran gestionar su propio perfil y además añadir su propia foto o avatar.
 
 ## Instalar
 
 1. Instalar las dependencias mediante el comando `npm install` o `npm i`.
 
-2. Guardar el archivo `.env.example` como `.env` y cubrir los datos necesarios.
+2. Guardar el archivo `.env.example` como `.env` para no subir los datos por seguridad..
 
 3. Ejecutar `npm run initDb` para crear las tablas necesarias en la base de datos.
 
@@ -30,53 +59,54 @@ Se trata de una web donde los usuarios publican entradas sobre viajes. Cada entr
 | createdAt        | DATETIME     | Fecha y hora de creación del usuario   |
 | modifiedAt       | DATETIME     | Fecha y hora de la última modificación |
 
-### entries
+### news
 
-| Campo       | Tipo         | Descripción                            |
-| ----------- | ------------ | -------------------------------------- |
-| id          | VARCHAR(36)  | Identificador único de la entrada      |
-| title       | VARCHAR(100) | Título de la entrada                   |
-| place       | VARCHAR(50)  | Lugar donde ocurrieron los sucesos     |
-| description | TEXT         | Descripción de los sucesos             |
-| idUser      | VARCHAR(36)  | Identificador del usuario creador      |
-| createdAt   | DATETIME     | Fecha y hora de creación de la entrada |
+| Campo      | Tipo         | Descripción                            |
+| ---------- | ------------ | -------------------------------------- |
+| id         | VARCHAR(36)  | Identificador único de la entrada      |
+| headline   | VARCHAR(100) | Título de la entrada                   |
+| categories | VARCHAR(25)  | Temática de la noticia                 |
+| entrance   | VARCHAR(200) | descripción escueta de la noticia      |
+| paragraphs | TEXT         | Descripción de los Hechos              |
+| idUser     | VARCHAR(36)  | Identificador del usuario creador      |
+| createdAt  | DATETIME     | Fecha y hora de creación de la entrada |
 
-### entryPhotos
+### newsPhotos
 
 | Campo     | Tipo         | Descripción                                            |
 | --------- | ------------ | ------------------------------------------------------ |
 | id        | VARCHAR(36)  | Identificador único de la foto                         |
 | name      | VARCHAR(100) | Nombre de la foto                                      |
-| idEntry   | VARCHAR(36)  | Identificador de la entrada a la que pertenece la foto |
+| idnews    | VARCHAR(36)  | Identificador de la entrada a la que pertenece la foto |
 | createdAt | DATETIME     | Fecha y hora de creación de la foto                    |
 
-### entryVotes
+### newsVotes
 
 | Campo     | Tipo        | Descripción                        |
 | --------- | ----------- | ---------------------------------- |
 | id        | VARCHAR(36) | Identificador único del voto       |
 | value     | TINYINT     | Valor del voto (del 1 al 5)        |
-| idEntry   | VARCHAR(36) | Identificador de la entrada votada |
+| idnews    | VARCHAR(36) | Identificador de la entrada votada |
 | idUser    | VARCHAR(36) | Identificador del usuario que votó |
 | createdAt | DATETIME    | Fecha y hora de creación del voto  |
 
 ## Endpoints del usuario
 
--   **POST** - `/users/register` - Crea un nuevo usuario pendiente de activar.
--   **PUT** - `/users/validate/:registrationCode` - Valida a un usuario recién registrado.
--   **POST** - `/users/login` - Logea a un usuario retornando un token.
--   **GET** - `/users/:userId` - Retorna información pública de un usuario (ver el perfil).
--   **GET** - `/users` - Retorna información privada del usuario con el id del token.
--   **PUT** - `/users/avatar` - Permite actualizar el avatar del usuario.
--   **POST** - `/users/password/recover` - Envía al usuario un correo de recuperación de contraseña.
--   **PUT** - `/users/password/reset` - Actualiza la contraseña de un usuario mediante un código de recuperación.
+- **POST** - `/users/register` - Crea un nuevo usuario pendiente de activar.
+- **PUT** - `/users/validate/:registrationCode` - Valida a un usuario recién registrado.
+- **POST** - `/users/login` - Logea a un usuario retornando un token.
+- **GET** - `/users/:userId` - Retorna información pública de un usuario (ver el perfil).
+- **GET** - `/users` - Retorna información privada del usuario con el id del token.
+- **PUT** - `/users/avatar` - Permite actualizar el avatar del usuario.
+- **POST** - `/users/password/recover` - Envía al usuario un correo de recuperación de contraseña.
+- **PUT** - `/users/password/reset` - Actualiza la contraseña de un usuario mediante un código de recuperación.
 
-## Endpoints del diario
+## Endpoints de El Notición
 
--   **POST** - `/entries` - Crea una entrada.
--   **GET** - `/entries` - Retorna el listado de entradas.
--   **GET** - `/entries/:entryId` - Retorna una entrada en concreto.
--   **POST** - `/entries/:entryId/photos` - Agregar una foto a una entrada.
--   **DELETE** - `/entries/:entryId/photos/:photoId` - Eliminar una foto de una entrada.
--   **POST** - `/entries/:entryId/votes` - Vota una entrada (entre 1 y 5).
--   **DELETE** - `/entries/:entryId` - Eliminar una entrada.
+- **POST** - `/news` - Crea una noticia.
+- **GET** - `/news` - Devuelve el listado de noticias.
+- **GET** - `/news/:newsId` - Devuelve una noticia en concreto.
+- **POST** - `/news/:newsId/photos` - Agregar una foto a una noticia.
+- **DELETE** - `/news/:newsId/photos/:photoId` - Eliminar una foto de una noticia.
+- **POST** - `/news/:newsId/votes` - Vota una noticia (1 o 0, like, dislike).
+- **DELETE** - `/news/:newsId` - Eliminar una noticia
