@@ -95,10 +95,10 @@ export const photoLimitReachedError = () => {
   };
 };
 
-export const cannotVoteOwnEntryError = () => {
+export const cannotVoteOwnnewsError = () => {
   throw {
     httpStatus: 403, // Forbidden
-    code: "CANNOT_VOTE_OWN_ENTRY",
+    code: "CANNOT_VOTE_OWN_news",
     message: "No puedes votar tu propia entrada",
   };
 };
@@ -110,5 +110,3 @@ export const voteAlreadyExistsError = () => {
     message: "No se puede votar más de una vez la misma entrada",
   };
 };
-
-

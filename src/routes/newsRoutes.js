@@ -53,7 +53,7 @@ router.post(
 
 // Eliminar una foto de una noticia.
 router.delete(
-  "/news/:entryId/photos/:photoId",
+  "/news/:newsId/photos/:photoId",
   authUserController,
   authUserOptionalController,
   userExistsController,

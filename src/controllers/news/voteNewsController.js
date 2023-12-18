@@ -1,15 +1,15 @@
 // Importamos los modelos.
-import selectEntryByIdModel from "../../models/news/selectEntryByIdModel.js";
+import selectnewsByIdModel from "../../models/news/selectnewsByIdModel.js";
 import insertVoteModel from "../../models/news/insertVoteModel.js";
 
 // Importamos los servicios.
 import validateSchemaUtil from "../../utils/validateSchemaUtil.js";
 
 // Importamos el esquema.
-import voteEntrySchema from "../../schemas/news/voteEntrySchema.js";
+import votenewsSchema from "../../schemas/news/votenewsSchema.js";
 
 // Importamos los errores.
-import { cannotVoteOwnEntryError } from "../../services/errorService.js";
+import { cannotVoteOwnnewsError } from "../../services/errorService.js";
 
 // Función controladora final que permite votar una entrada.
 const voteNewsController = async (req, res, next) => {
